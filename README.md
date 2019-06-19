@@ -1,6 +1,6 @@
 # Multi layer perceptron  implementation
 
-Implemeting multilayer perceptron  algorithmcfrom scratch
+Implemeting multilayer perceptron  algorithm from scratch
 
 
 
