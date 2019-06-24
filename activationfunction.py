@@ -5,7 +5,7 @@ def sigmoid(value):
 
 
 def tanh(value):
-    return (1-numpy.exp(-2*value))/(1+numpy.exp(-2*value))
+    return tanh(value)
 
 
 def relu(value):
