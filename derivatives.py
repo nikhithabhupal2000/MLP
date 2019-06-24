@@ -5,5 +5,5 @@ def tanh_derivative(self, value):
     return  1 - self.tanh(value) * self.tanh(value)
     
 def relu_derivative(self, value):     
-     return max(sign(value), 0)
+     return 1 * (self.relu_derivative(value) > 0)
     
