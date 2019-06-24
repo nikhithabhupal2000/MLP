@@ -1,6 +1,6 @@
 import numpy 
 
-class mlp:
+class Mlp:
     def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , activation_function = "relu"):
 
         self.feature_matrix = feature_matrix
@@ -50,7 +50,7 @@ class mlp:
 f1 = numpy.array([1 , 2, 3])
 f2 = numpy.array([1])
 f3 = [3 , 2 , 1]
-ob = mlp(f1 , f2 , f3 , "sigmoid")
+ob = Mlp(f1 , f2 , f3 , "sigmoid")
 print(ob.forward_propagation())
 
  
