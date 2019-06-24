@@ -8,8 +8,5 @@ def tanh(value):
     return tanh(value)
 
 def relu(value):
-    return max(0,value)
+    return numpy.maximum(value,0)
 
-print(sigmoid(0))
-print(tanh(0))
-print(relu(3))
