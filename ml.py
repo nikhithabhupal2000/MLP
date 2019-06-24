@@ -2,18 +2,25 @@ import numpy
 class Mlp:
     
     def forward_propagation(self):
-        for i in range(len(weight_list)):
-            self.input_matrix = self.output_of_next_layer(self.input_matrix,self.weight_list[i],self.bias_list[i])
-        return  self.input_matrix  
+        for i in range(self.number_of_hidden_layers):
+            input_matrix = self.next_layer_input(input_matrix,self.weight_list[i],self.bias_list[i])
+        return  input_matrix  
 
     
-    def output_of_next_layer(self,input_matrix,weight_matrix_,bias_matrix):
-        output_before_transformation = numpy.dot(self.input_matrix ,self.weight_matrix) + bias_matrix
-        output_next = self.activation_function(output_before_transformation)
+    def next_layer_input(self,input_matrix,weight_matrix_,bias_matrix):
+        output_before_activation= numpy.add( numpy.dot(self.input_matrix ,weight_matrix) , (bias_matrix))
+        next_input = self.apply_activation_function(output_before_activation)
+	return next_input
 
 
-    def activation_function(self,output_before_trans):
-        return 1/(1+pow(e,self.output_before_trans))
+    def apply_activation_function(self,output_before_activation):
+        if self.activation_function.lower() == "sigmoid":
+		return sigmoid(output_before_activation)
+	elif self.activation_function.lower() == "tanh":
+		return tanh(output_before_activation)
+	else:
+		return relu(output_before_activation)
+
     
 
 
