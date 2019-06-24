@@ -7,7 +7,6 @@ def sigmoid(value):
 def tanh(value):
     return tanh(value)
 
-
 def relu(value):
     return max(0,value)
 
