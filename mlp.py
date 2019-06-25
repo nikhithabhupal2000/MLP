@@ -99,10 +99,8 @@ class Mlp:
             self.weights[i] = self.weights[i] + numpy.dot(numpy.transpose(self.prediction[i - 1]) , self.left_error[self.number_of_hidden_layers - i])
 
     def update_biases(self):
-
-
-
-
+        for i in range(self.number_of_hidden_layers , -1 , -1):
+            self.biases[i] = self.biases[i] + self.left_error[self.number_of_hidden_layers -i]
 
     def update(self):
         self.update_weights()
