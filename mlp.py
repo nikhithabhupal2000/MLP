@@ -21,16 +21,16 @@ class Mlp:
         print("%%%%%%%55")
         for i in self.biases:
             print(i)
-    def sigmoid(self,value):
+    def sigmoid(value):
         return 1/(1+numpy.exp(-value))
 
 
-    def tanh(self,value):
+    def tanh(value):
         return (1-numpy.exp(-2*value))/(1+numpy.exp(-2*value))
 
 
-    def relu(self,value):
-        return max(0,value)
+    def relu(value):
+        return numpy.maximum(value,0)
     
 
     def sigmoid_derivative(self, value):
@@ -70,11 +70,11 @@ class Mlp:
 
     def apply_activation_function(self,output_before_activation):
         if self.activation_function.lower() == "sigmoid":
-            return self.sigmoid(output_before_activation)
+            return sigmoid(output_before_activation)
         elif self.activation_function.lower() == "tanh":
-            return self.tanh(output_before_activation)
+            return tanh(output_before_activation)
         else:
-            return self.relu(output_before_activation)
+            return relu(output_before_activation)
 	
 
 
