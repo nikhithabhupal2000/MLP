@@ -80,6 +80,10 @@ class Mlp:
         return numpy.square(numpy.subtract(prediction , expected))/2
 
     def apply_loss_function(self):
+        if self.loss_function == "absolute_error":
+            return self.absolute_error(self.output_matrix, self.prediction[-1])
+        else :
+            return self.mean_square_error(self.output_matrix, self.prediction[-1])
         
     def propagate_error(self , i):
 
