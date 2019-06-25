@@ -32,7 +32,7 @@ class Mlp:
     
 
     def sigmoid_derivative(self, value):
-        return self.sigmoid(value) * (1 - self.sigmoid(value))
+        return numpy.dot(self.sigmoid(value) , numpy.transpose(1 - self.sigmoid(value)))
     
     def tanh_derivative(self, value):
         return  1 - (self.tanh(value) ** 2)
@@ -57,7 +57,7 @@ class Mlp:
 
     def derivative(self,predicted_output):
         if self.activation_function.lower() == "sigmoid":
-            return self.sigmoid_derivative(predicted_error)
+            return self.sigmoid_derivative(predicted_output)
         elif self.activation_function.lower() == "tanh":
             return self.tanh_derivative(predicted_output)
         else:
@@ -90,13 +90,15 @@ class Mlp:
 
 
     def backward_propagation(self):
-        self.left_error.append(numpy.matmul(derivative(self.prediction[-1])  , self.apply_loss_function()))
+        self.left_error.append(numpy.matmul(self.derivative(self.prediction[-1])  , self.apply_loss_function()))
+        
         for i in range(self.number_of_hidden_layers ):
+            
             self.left_error.append(numpy.dot(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) , self.propagate_error(i)))
-    
+        
     def update_weights(self):
         for i in range(self.number_of_hidden_layers  , -1 , -1):
-            self.weights[i] = self.weights[i] + numpy.dot(numpy.transpose(self.prediction[i - 1]) , self.left_error[self.number_of_hidden_layers - i])
+            self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i])
 
     def update_biases(self):
         for i in range(self.number_of_hidden_layers , -1 , -1):
@@ -106,14 +108,16 @@ class Mlp:
         self.update_weights()
         self.update_biases()
 
-f1 = numpy.array([1 , 2, 3])
-f2 = numpy.array([1])
+f1 = numpy.matrix([1 , 2, 3])
+f2 = numpy.matrix([1])
 f3 = [3 , 2 , 1]
 ob = Mlp(f1 , f2 , f3 , "sigmoid")
-ob.forward_propagation()
-ob.backward_propagation()
- 
-    
+for i in range(2000):
+    ob.forward_propagation()
+    ob.backward_propagation()
+    ob.update()
+
+print(ob.prediction[-1])
 
 
 
@@ -127,6 +131,7 @@ ob.backward_propagation()
 
 
         
+
 
 
 
