@@ -18,7 +18,6 @@ class Mlp:
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1 ]))
             self.weights.append(temp_weights)
             self.biases.append(temp_bias)
-
     def sigmoid(self,value):
         return 1/(1+numpy.exp(-value))
 
@@ -32,7 +31,8 @@ class Mlp:
     
 
     def sigmoid_derivative(self, value):
-        return numpy.dot(self.sigmoid(value) , numpy.transpose(1 - self.sigmoid(value)))
+       # return value * (1-value)
+        return numpy.asmatrix(numpy.asarray(value)  * numpy.asarray(1 - value))
     
     def tanh_derivative(self, value):
         return  1 - (self.tanh(value) ** 2)
@@ -45,6 +45,7 @@ class Mlp:
 
 
     def forward_propagation(self):
+        self.prediction = []
         self.prediction.append(self.feature_matrix)
         for i in range(self.number_of_hidden_layers + 1):
              self.prediction.append(self.next_layer_input(self.prediction[i],self.weights[i],self.biases[i]))
@@ -73,7 +74,8 @@ class Mlp:
 
 
     def absolute_error(self,prediction , expected):
-        return numpy.abs(numpy.subtract(prediction , expected))
+        #print(numpy.subtract(prediction , expected))
+        return numpy.subtract(prediction , expected)
 	
 
     def mean_square_error(self, prediction , expected):
@@ -81,48 +83,60 @@ class Mlp:
 
     def apply_loss_function(self):
         if self.loss_function == "absolute_error":
+        
             return self.absolute_error(self.output_matrix, self.prediction[-1])
         else :
+            
             return self.mean_square_error(self.output_matrix, self.prediction[-1])
         
     def propagate_error(self , i):
         return numpy.matmul(self.left_error[-1],numpy.transpose(self.weights[self.number_of_hidden_layers-i]))
-
+        
 
     def backward_propagation(self):
-        self.left_error.append(numpy.matmul(self.derivative(self.prediction[-1])  , self.apply_loss_function()))
+        self.left_error = []
+        self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[-1]))*numpy.asarray( self.apply_loss_function())))
         
-        for i in range(self.number_of_hidden_layers ):
-            
-            self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) )* numpy.asarray( self.propagate_error(i))))
+        
+        for i in range(self.number_of_hidden_layers ):        
+            self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) )* numpy.asarray( self.propagate_error(i))) * 0.1)
+        
     
     def update_weights(self):
         for i in range(self.number_of_hidden_layers  , -1 , -1):
-            self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i])
+            self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i]) 
 
     def update_biases(self):
         for i in range(self.number_of_hidden_layers , -1 , -1):
-            self.biases[i] = self.biases[i] + self.left_error[self.number_of_hidden_layers -i]
+            self.biases[i] = numpy.add(self.biases[i] , self.left_error[self.number_of_hidden_layers -i]) 
 
     def update(self):
         self.update_weights()
         self.update_biases()
 
-f1 = numpy.matrix([1 , 2, 3])
-f2 = numpy.matrix([1])
-f3 = [3 , 2 , 1]
-ob = Mlp(f1 , f2 , f3 , "sigmoid")
-for i in range(2000):
+X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1],[1,1,1,0]])
+y=numpy.matrix([[1],[1],[0],[0]])
+f3 = [4,3,1]
+ob = Mlp(X,y,f3, "sigmoid" , "absolute_error")
+for i in range(100000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
-
+"""
+print("input_matrix")
+print(ob.feature_matrix)
+print("output_matrix")
+print(ob.output_matrix)
+print("weights")
+print(ob.weights)
+print("biases")
+print(ob.biases)
+print("predictions")
+print(ob.prediction)
+print("left_error")
+print(ob.left_error)"""
 print(ob.prediction[-1])
-
-
-
-
-        
+    
 
 
         
@@ -131,6 +145,7 @@ print(ob.prediction[-1])
 
 
         
+
 
 
 
