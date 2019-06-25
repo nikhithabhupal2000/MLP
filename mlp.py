@@ -50,7 +50,7 @@ class Mlp:
              self.prediction.append(self.next_layer_input(self.prediction[i],self.weights[i],self.biases[i]))
 
     def next_layer_input(self,input_matrix,weight_matrix,bias_matrix):
-        output_before_activation= numpy.add( numpy.dot(input_matrix ,weight_matrix) , (bias_matrix))
+        output_before_activation= numpy.add( numpy.matmul(input_matrix ,weight_matrix) , (bias_matrix))
         next_input = self.apply_activation_function(output_before_activation)
         return next_input
 
@@ -94,8 +94,8 @@ class Mlp:
         
         for i in range(self.number_of_hidden_layers ):
             
-            self.left_error.append(numpy.dot(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) , self.propagate_error(i)))
-        
+            self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) )* numpy.asarray( self.propagate_error(i))))
+    
     def update_weights(self):
         for i in range(self.number_of_hidden_layers  , -1 , -1):
             self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i])
