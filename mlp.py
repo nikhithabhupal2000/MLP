@@ -16,11 +16,7 @@ class Mlp:
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1 ]))
             self.weights.append(temp_weights)
             self.biases.append(temp_bias)
-        for i in self.weights:
-            print(i)
-        print("%%%%%%%55")
-        for i in self.biases:
-            print(i)
+
     def sigmoid(self,value):
         return 1/(1+numpy.exp(-value))
 
@@ -30,7 +26,7 @@ class Mlp:
 
 
     def relu(self,value):
-        return max(0,value)
+        return numpy.maximum(value,0)
     
 
     def sigmoid_derivative(self, value):
@@ -42,7 +38,7 @@ class Mlp:
     def relu_derivative(self, value):
         if value >= 0 :
             return 1
-        else :
+        else:
             return 0
 
 
@@ -50,9 +46,6 @@ class Mlp:
         self.prediction.append(self.feature_matrix)
         for i in range(self.number_of_hidden_layers + 1):
              self.prediction.append(self.next_layer_input(self.prediction[i],self.weights[i],self.biases[i]))
-        print("predictions")
-        for i in self.prediction:
-            print(i)
 
     def next_layer_input(self,input_matrix,weight_matrix,bias_matrix):
         output_before_activation= numpy.add( numpy.dot(input_matrix ,weight_matrix) , (bias_matrix))

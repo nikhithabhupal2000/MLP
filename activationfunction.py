@@ -1,16 +1,12 @@
 import numpy 
 import math
-def sigmoid(value):
-    return 1/(1+numpy.exp(-value))
 
+def sigmoid(value):
+    return 1 / (1 + numpy.exp(- value))
 
 def tanh(value):
-    return (1-numpy.exp(-2*value))/(1+numpy.exp(-2*value))
-
+    return tanh(value)
 
 def relu(value):
-    return max(0,value)
+    return numpy.maximum(value,0)
 
-print(sigmoid(0))
-print(tanh(0))
-print(relu(3))
