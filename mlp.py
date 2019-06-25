@@ -86,6 +86,8 @@ class Mlp:
             return self.mean_square_error(self.output_matrix, self.prediction[-1])
         
     def propagate_error(self , i):
+        return numpy.matmul(self.left_error[-1],numpy.transpose(self.weights[self.number_of_hidden_layers-i]))
+
 
     def backward_propagation(self):
         self.left_error.append(derivative(self.prediction[-1])  @ self.apply_loss_function())
