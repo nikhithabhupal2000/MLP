@@ -1,8 +1,8 @@
 import numpy 
 
 class Mlp:
-    def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , activation_function = "relu"):
-    
+    def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , activation_function = "relu" , loss_function = "mean_square_error"):
+      
         self.feature_matrix = feature_matrix
         self.output_matrix = output_matrix 
         self.number_of_neurons_in_each_layer = number_of_neurons_in_each_layer
@@ -11,6 +11,8 @@ class Mlp:
         self.weights = []
         self.biases = []
         self.prediction = []
+        self.loss_function = loss_function
+        self.left_error = []
         for i in range(self.number_of_hidden_layers + 1):
             temp_weights = numpy.matrix(numpy.random.rand(number_of_neurons_in_each_layer [ i ],number_of_neurons_in_each_layer [ i + 1]))
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1 ]))
@@ -53,13 +55,13 @@ class Mlp:
         return next_input
 
 
-    def derivative(self,error):
+    def derivative(self,predicted_output):
         if self.activation_function.lower() == "sigmoid":
-            return self.sigmoid_derivative(error)
+            return self.sigmoid_derivative(predicted_error)
         elif self.activation_function.lower() == "tanh":
-            return self.tanh_derivative(error)
+            return self.tanh_derivative(predicted_output)
         else:
-            return self.relu_derivative(error)
+            return self.relu_derivative(predicted_output)
 
     def apply_activation_function(self,output_before_activation):
         if self.activation_function.lower() == "sigmoid":
@@ -68,21 +70,24 @@ class Mlp:
             return self.tanh(output_before_activation)
         else:
             return self.relu(output_before_activation)
-	
 
+
+    def absolute_error(self,prediction , expected):
+        return numpy.abs(numpy.subtract(prediction , expected))
+	
 
     def mean_square_error(self, prediction , expected):
         return numpy.square(numpy.subtract(prediction , expected))/2
 
-    def update(self ,error , nth_layer):
-        self.weights[nth_layer] = self.weights[nth_layer] - self.learning_rate * self.derivative(error)
+    def apply_loss_function(self):
+        
+    def propagate_error(self , i):
 
     def backward_propagation(self):
-        for i in range(self.number_of_hidden_layers + 1):
-            error = self.mean_square_error(self.prediction[self.number_of_hidden_layers + 1 - i ] , self.prediction[self.number_of_hidden_layers  - i])
-            self.update(error , self.number_of_hidden_layers + 1 - i)
-        for i in self.weights:
-            print(i)
+        self.left_error.append(derivative(self.prediction[-1])  @ self.apply_loss_function())
+        for i in range(self.number_of_hidden_layers ):
+            self.left_error.append(numpy.dot(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) , self.propagate_error(i)))
+
 
 
 f1 = numpy.array([1 , 2, 3])
