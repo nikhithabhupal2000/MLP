@@ -90,11 +90,23 @@ class Mlp:
 
 
     def backward_propagation(self):
-        self.left_error.append(derivative(self.prediction[-1])  @ self.apply_loss_function())
+        self.left_error.append(numpy.matmul(derivative(self.prediction[-1])  , self.apply_loss_function()))
         for i in range(self.number_of_hidden_layers ):
             self.left_error.append(numpy.dot(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) , self.propagate_error(i)))
+    
+    def update_weights(self):
+        for i in range(self.number_of_hidden_layers  , -1 , -1):
+            self.weights[i] = self.weights[i] + numpy.dot(self.prediction[i - 1] , self.left_error[self.number_of_hidden_layers - i])
+
+    def update_biases(self):
 
 
+
+
+
+    def update(self):
+        self.update_weights()
+        self.update_biases()
 
 f1 = numpy.array([1 , 2, 3])
 f2 = numpy.array([1])
