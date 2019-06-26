@@ -1,5 +1,5 @@
 # PROVIDE YOUR DOWNLOAD DIRECTORY HERE
-datapath = '/home/pune1/pranav/Deeplearning/data/mnist/data/'  
+datapath = 'C:\Users\Srinija\Desktop\TS-WE\MNIST Dataset\'  
 
 files = os.listdir(datapath)
 
