@@ -121,11 +121,6 @@ class Mlp:
         self.update_weights()
         self.update_biases()
 
-<<<<<<< HEAD
-            
- 
-
-
 X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1]])
 y=numpy.matrix([[1],[0],[1]])
 f3 = [4,3,1]
@@ -133,18 +128,10 @@ test = numpy.matrix([[0,0,1,1],[1,1,0,0],[1,1,1,1]])
 print(test)
 ob = Mlp(X,y,f3,test, "sigmoid" , "absolute_error")
 for i in range(100000):
-=======
-X=numpy.matrix([[1,3,1,2]])
-y=numpy.matrix([[1]])
-f3 = [4,3,1]
-ob = Mlp(X,y,f3, "tanh" , "absolute_error")
-for i in range(1000):
->>>>>>> e09c8fc5ea8faaf3aa46090f360d273004fe2eb3
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
 print(ob.prediction[-1])
-<<<<<<< HEAD
 ob.predict()
 #test = numpy.matrix([[1,0,0,0],[0,0,1,1],[1,1,1,1],[1,0,1,0]])
 
@@ -157,13 +144,5 @@ ob.predict()
 
 
         
-
-
-
-
-
-=======
-   
->>>>>>> e09c8fc5ea8faaf3aa46090f360d273004fe2eb3
 
 
