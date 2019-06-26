@@ -1,4 +1,26 @@
-import numpy 
+import numpy
+class lib_functions:
+    def sigmoid(value):
+        return 1/(1+numpy.exp(-value))
+
+    def tanh(value):
+        return (1-numpy.exp(-2*value))/(1+numpy.exp(-2*value))
+
+    def relu(value):
+        return numpy.maximum(value,0)
+
+    def sigmoid_derivative(value):
+        return numpy.asmatrix(numpy.asarray(value) * numpy.asarray(1 - value))
+
+    def tanh_derivative(value):
+        return  1 - numpy.asmatrix(numpy.asarray(value) * numpy.asarray(value))
+    
+
+    def relu_derivative(value):
+        value[value <= 0] = 0
+        value[value > 0] = 1
+        return value
+
 
 class Mlp:
     def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , activation_function = "relu" , loss_function = "mean_square_error"):
@@ -19,31 +41,6 @@ class Mlp:
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1 ]))
             self.weights.append(temp_weights)
             self.biases.append(temp_bias)
-    def sigmoid(self,value):
-        return 1/(1+numpy.exp(-value))
-
-
-    def tanh(self,value):
-        return (1-numpy.exp(-2*value))/(1+numpy.exp(-2*value))
-
-
-    def relu(self,value):
-        return numpy.maximum(value,0)
-    
-
-    def sigmoid_derivative(self, value):
-       # return value * (1-value)
-        return numpy.asmatrix(numpy.asarray(value) * numpy.asarray(1 - value))
-    
-    def tanh_derivative(self, value):
-        return  1 - numpy.asmatrix(numpy.asarray(value) * numpy.asarray(value))
-       # return  1 - (self.tanh(value) ** 2)
-    
-    def relu_derivative(self, value):
-        value[value <= 0] = 0
-        value[value > 0] = 1
-        return value
-
 
     def forward_propagation(self):
         self.prediction = []
@@ -59,19 +56,19 @@ class Mlp:
 
     def derivative(self,predicted_output):
         if self.activation_function.lower() == "sigmoid":
-            return self.sigmoid_derivative(predicted_output)
+            return lib_functions.sigmoid_derivative(predicted_output)
         elif self.activation_function.lower() == "tanh":
-            return self.tanh_derivative(predicted_output)
+            return lib_functions.tanh_derivative(predicted_output)
         else:
-            return self.relu_derivative(predicted_output)
+            return lib_functions.relu_derivative(predicted_output)
 
     def apply_activation_function(self,output_before_activation):
         if self.activation_function.lower() == "sigmoid":
-            return self.sigmoid(output_before_activation)
+            return lib_functions.sigmoid(output_before_activation)
         elif self.activation_function.lower() == "tanh":
-            return self.tanh(output_before_activation)
+            return lib_functions.tanh(output_before_activation)
         else:
-            return self.relu(output_before_activation)
+            return lib_functions.relu(output_before_activation)
 
 
     def absolute_error(self,prediction , expected):
@@ -115,28 +112,14 @@ class Mlp:
         self.update_weights()
         self.update_biases()
 
-X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1]])
-y=numpy.matrix([[1],[0],[1]])
+X=numpy.matrix([[1,3,1,2]])
+y=numpy.matrix([[1]])
 f3 = [4,3,1]
-ob = Mlp(X,y,f3, "sigmoid" , "absolute_error")
-for i in range(100000):
+ob = Mlp(X,y,f3, "tanh" , "absolute_error")
+for i in range(1000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
-
 print(ob.prediction[-1])
-    
-
-
-        
-
-
-
-
-        
-
-
-
-
-
+   
 
