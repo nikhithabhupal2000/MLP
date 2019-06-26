@@ -35,13 +35,13 @@ class Mlp:
         return numpy.asmatrix(numpy.asarray(value)  * numpy.asarray(1 - value))
     
     def tanh_derivative(self, value):
-        return  1 - (self.tanh(value) ** 2)
+        return  1 - numpy.asmatrix(numpy.asarray(value) * numpy.asarray(value))
+       # return  1 - (self.tanh(value) ** 2)
     
     def relu_derivative(self, value):
-        if value >= 0 :
-            return 1
-        else:
-            return 0
+        value[value <= 0] = 0
+        value[value > 0] = 1
+        return value
 
 
     def forward_propagation(self):
@@ -122,19 +122,7 @@ for i in range(100000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
-"""
-print("input_matrix")
-print(ob.feature_matrix)
-print("output_matrix")
-print(ob.output_matrix)
-print("weights")
-print(ob.weights)
-print("biases")
-print(ob.biases)
-print("predictions")
-print(ob.prediction)
-print("left_error")
-print(ob.left_error)"""
+
 print(ob.prediction[-1])
     
 
