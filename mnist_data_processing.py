@@ -1,5 +1,5 @@
 # PROVIDE YOUR DOWNLOAD DIRECTORY HERE
-datapath = 'C:\Users\Srinija\Desktop\TS-WE\MNIST Dataset\'  
+datapath = 'C:\Users\Srinija\Desktop\TS-WE\MNIST Dataset'  
 
 files = os.listdir(datapath)
 
