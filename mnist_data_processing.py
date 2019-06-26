@@ -1,5 +1,7 @@
 # PROVIDE YOUR DOWNLOAD DIRECTORY HERE
-datapath = 'C:\Users\Srinija\Desktop\TS-WE\MNIST Dataset'  
+#Sample path '/home/pune1/pranav/Deeplearning/data/mnist/data/'
+
+datapath =  ''
 
 files = os.listdir(datapath)
 
@@ -33,7 +35,7 @@ for file in files:
 
 
 #for storing images and keeping the dictionary containing images and labels
-datapath = '/home/pune1/pranav/Deeplearning/MNISTData/' # PATH WHERE IMAGES WILL BE SAVED
+datapath = '' # PATH WHERE IMAGES WILL BE SAVED
 sets = ['train','test']
 for set in sets:   # FOR TRAIN AND TEST SET
     images = data_dict[set+'_images']   # IMAGES
