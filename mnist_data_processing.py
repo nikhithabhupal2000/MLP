@@ -53,7 +53,7 @@ for set in sets:   # FOR TRAIN AND TEST SET
 
 #keeping a dictionary having all the data, to be used later
 import pickle
-datapath = '/home/pune1/pranav/Deeplearning/MNISTData/'
+datapath = ''
 
 
 # DUMPING THE DICTIONARY INTO A PICKLE 
