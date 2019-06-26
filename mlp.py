@@ -1,5 +1,5 @@
 import numpy
-
+import pandas
 
 
 class Activation_functions:
@@ -55,8 +55,11 @@ class Mlp:
             for i in range(self.number_of_hidden_layers + 1):
                 temp_weights = numpy.matrix(numpy.random.rand(number_of_neurons_in_each_layer [ i ],number_of_neurons_in_each_layer[ i + 1]))
                 self.weights.append(temp_weights)
-        
-        
+        print('weights size')    
+        print(self.weights[0].shape)
+        #print('inputs size')
+        #print(self.feature_matrix.shape)
+
 
 
 
@@ -152,11 +155,17 @@ class Mlp:
 
 
 
-features = numpy.matrix([[1, 0, 1, 0], [1, 0, 1, 1], [0, 1, 0, 1]])
-actual_output = numpy.matrix([[1], [0], [1]])
-perceptrons_in_each_layer = [4, 3, 1]
-testing_sample = numpy.matrix([[0, 0, 1, 1], [1, 1, 0, 0], [1, 1, 1, 1]])
-ob = Mlp(features, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
+
+train_data_object = pandas.read_csv("fashion-mnist_train.csv")
+input_data = train_data_object.drop('label', axis = 1)
+features_matrix = input_data.as_matrix()
+print('input size')
+print(features_matrix.shape)
+actual_output =  train_data_object[ 'label' ]
+perceptrons_in_each_layer = [features_matrix.shape[1], 3, 1]
+test_data_object = pandas.read_csv("fashion-mnist_test.csv")
+testing_sample = test_data_object.drop( 'label' ,axis = 1)
+ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
 for i in range(1000):
     ob.forward_propagation()
     ob.backward_propagation()
@@ -165,7 +174,7 @@ for i in range(1000):
 print("Predicted outputs are ")
 ob.predict()
 
-#check for forward propagation
+"""#check for forward propagation
 
 features = numpy.matrix([[1, 2]])
 
@@ -177,13 +186,14 @@ weights = [numpy.matrix([[0.4, 0, -1], [1, 2, 0]]), numpy.matrix([[0.6, 0.5, 0.7
 
 ob = Mlp(features, actual_output, perceptrons_in_each_layer, [], weights, "sigmoid" , "absolute_error")
 ob.forward_propagation()
-print(ob.prediction[-1])
+print(ob.prediction[-1])"""
      
 
 
 
 
         
+
 
 
 
