@@ -1,18 +1,20 @@
 import numpy 
 
 class Mlp:
-    def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , activation_function = "relu" , loss_function = "mean_square_error"):
+    def __init__(self , feature_matrix , output_matrix , number_of_neurons_in_each_layer , testing_samples ,activation_function = "relu" , loss_function = "mean_square_error"):
       
         self.feature_matrix = feature_matrix
         self.output_matrix = output_matrix 
         self.number_of_neurons_in_each_layer = number_of_neurons_in_each_layer
         self.activation_function = activation_function
         self.number_of_hidden_layers = len(number_of_neurons_in_each_layer) - 2
+        self.testing_samples = testing_samples
         self.weights = []
         self.biases = []
         self.prediction = []
         self.loss_function = loss_function
         self.left_error = []
+        self.solution = []
         self.learning_rate = 0.1
         for i in range(self.number_of_hidden_layers + 1):
             temp_weights = numpy.matrix(numpy.random.rand(number_of_neurons_in_each_layer [ i ],number_of_neurons_in_each_layer [ i + 1]))
@@ -50,6 +52,13 @@ class Mlp:
         self.prediction.append(self.feature_matrix)
         for i in range(self.number_of_hidden_layers + 1):
              self.prediction.append(self.next_layer_input(self.prediction[i],self.weights[i],self.biases[i]))
+    def predict(self):
+        self.solution . append(self.testing_samples)
+        for i in range(self.number_of_hidden_layers + 1):
+            self.solution.append(self.next_layer_input(self.solution[i] , self.weights[i] , self.biases[i]))
+
+        print(self.solution[-1])
+
 
     def next_layer_input(self,input_matrix,weight_matrix,bias_matrix):
         output_before_activation= numpy.add( numpy.matmul(input_matrix ,weight_matrix) , (bias_matrix))
@@ -115,25 +124,35 @@ class Mlp:
         self.update_weights()
         self.update_biases()
 
+            
+ 
+
+
 X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1]])
 y=numpy.matrix([[1],[0],[1]])
 f3 = [4,3,1]
-ob = Mlp(X,y,f3, "sigmoid" , "absolute_error")
+test = numpy.matrix([[0,0,1,1],[1,1,0,0],[1,1,1,1]])
+print(test)
+ob = Mlp(X,y,f3,test, "sigmoid" , "absolute_error")
 for i in range(100000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
 
 print(ob.prediction[-1])
-    
-
-
-        
+ob.predict()
+#test = numpy.matrix([[1,0,0,0],[0,0,1,1],[1,1,1,1],[1,0,1,0]])
 
 
 
 
         
+
+
+
+
+        
+
 
 
 
