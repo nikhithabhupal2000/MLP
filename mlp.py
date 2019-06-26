@@ -13,6 +13,7 @@ class Mlp:
         self.prediction = []
         self.loss_function = loss_function
         self.left_error = []
+        self.learning_rate = 0.1
         for i in range(self.number_of_hidden_layers + 1):
             temp_weights = numpy.matrix(numpy.random.rand(number_of_neurons_in_each_layer [ i ],number_of_neurons_in_each_layer [ i + 1]))
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1 ]))
@@ -32,7 +33,7 @@ class Mlp:
 
     def sigmoid_derivative(self, value):
        # return value * (1-value)
-        return numpy.asmatrix(numpy.asarray(value)  * numpy.asarray(1 - value))
+        return numpy.asmatrix(numpy.asarray(value) * numpy.asarray(1 - value))
     
     def tanh_derivative(self, value):
         return  1 - numpy.asmatrix(numpy.asarray(value) * numpy.asarray(value))
@@ -99,23 +100,23 @@ class Mlp:
         
         
         for i in range(self.number_of_hidden_layers ):        
-            self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) )* numpy.asarray( self.propagate_error(i))) * 0.1)
+            self.left_error.append(numpy.asmatrix(numpy.asarray(self.derivative(self.prediction[self.number_of_hidden_layers - i ]) )* numpy.asarray( self.propagate_error(i))))
         
     
     def update_weights(self):
         for i in range(self.number_of_hidden_layers  , -1 , -1):
-            self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i]) 
+            self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]) , self.left_error[self.number_of_hidden_layers - i])*self.learning_rate 
 
     def update_biases(self):
         for i in range(self.number_of_hidden_layers , -1 , -1):
-            self.biases[i] = numpy.add(self.biases[i] , self.left_error[self.number_of_hidden_layers -i]) 
+            self.biases[i] = numpy.add(self.biases[i] , self.left_error[self.number_of_hidden_layers -i])*self.learning_rate 
 
     def update(self):
         self.update_weights()
         self.update_biases()
 
-X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1],[1,1,1,0]])
-y=numpy.matrix([[1],[1],[0],[0]])
+X=numpy.matrix([[1,0,1,0],[1,0,1,1],[0,1,0,1]])
+y=numpy.matrix([[1],[0],[1]])
 f3 = [4,3,1]
 ob = Mlp(X,y,f3, "sigmoid" , "absolute_error")
 for i in range(100000):
@@ -133,6 +134,7 @@ print(ob.prediction[-1])
 
 
         
+
 
 
 
