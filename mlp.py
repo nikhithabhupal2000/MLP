@@ -55,10 +55,7 @@ class Mlp:
             for i in range(self.number_of_hidden_layers + 1):
                 temp_weights = numpy.matrix(numpy.random.rand(number_of_neurons_in_each_layer [ i ],number_of_neurons_in_each_layer[ i + 1]))
                 self.weights.append(temp_weights)
-        print('weights size')    
-        print(self.weights[0].shape)
-        #print('inputs size')
-        #print(self.feature_matrix.shape)
+        
 
 
 
@@ -119,7 +116,6 @@ class Mlp:
 
     def apply_loss_function(self):
         if self.loss_function == "absolute_error":
-        
             return self.absolute_error(self.output_matrix, self.prediction[-1])
         else :
             
@@ -154,17 +150,26 @@ class Mlp:
         self.update_biases()
 
 
+def make_output(array):
+    matrix = []
+    for i in range(len(array)):
+        tmp_matrix = [0,0,0,0,0,0,0,0,0,0]
+        tmp_matrix[array[i]] = array[i]
+        matrix.append(numpy.matrix(tmp_matrix))
+    return matrix
 
 
-train_data_object = pandas.read_csv("fashion-mnist_train.csv")
+train_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
-features_matrix = input_data.as_matrix()
-print('input size')
-print(features_matrix.shape)
-actual_output =  train_data_object[ 'label' ]
-perceptrons_in_each_layer = [features_matrix.shape[1], 3, 1]
-test_data_object = pandas.read_csv("fashion-mnist_test.csv")
-testing_sample = test_data_object.drop( 'label' ,axis = 1)
+input_data = input_data.head()
+features_matrix = input_data.values
+actual_output =  make_output(train_data_object['label'].head().values)
+print(type(actual_output))
+perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
+#test_data_object = pandas.read_csv("C:\Users\Nikitha\Desktop\datasets\fashion-mnist_test.csv")
+#testing_sample = test_data_object.head().drop( 'label' ,axis = 1)
+
+testing_sample = features_matrix
 ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
 for i in range(1000):
     ob.forward_propagation()
@@ -174,25 +179,12 @@ for i in range(1000):
 print("Predicted outputs are ")
 ob.predict()
 
-"""#check for forward propagation
-
-features = numpy.matrix([[1, 2]])
-
-actual_output = numpy.matrix([[1]])
-
-perceptrons_in_each_layer = [2, 3, 3, 1]
-
-weights = [numpy.matrix([[0.4, 0, -1], [1, 2, 0]]), numpy.matrix([[0.6, 0.5, 0.7], [0.2, 0.3, 0.4], [0.5, 0.6, 0]]), numpy.matrix([[-1], [0], [1]])]
-
-ob = Mlp(features, actual_output, perceptrons_in_each_layer, [], weights, "sigmoid" , "absolute_error")
-ob.forward_propagation()
-print(ob.prediction[-1])"""
-     
 
 
 
 
         
+
 
 
 
