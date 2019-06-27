@@ -44,7 +44,7 @@ class Mlp:
         self.solution = []
         self.solution.append(self.testing_samples)
         self.learning_rate = 0.1
-        self.nums_output = []
+
         for i in range(self.number_of_hidden_layers + 1):
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1]))
             self.biases.append(temp_bias)
@@ -71,11 +71,13 @@ class Mlp:
     def predict(self):
         for i in range(self.number_of_hidden_layers + 1):
             self.solution.append(self.next_layer_prediction(self.solution[i], self.weights[i], self.biases[i]))
+        print(self.solution[-1])
+        for i in self.solution[-1]:
+            i =  numpy.asarray(i)
+            index_max = numpy.where(i == numpy.amax(i))[-1][0]
+            print(index_max)
         #print(self.solution[-1])
-        for i in range(len(self.solution[-1])):
-            index_max = numpy.unravel_index(numpy.argmax(self.solution[i], axis = None), self.solution[i].shape)[1]
-            self.nums_output.append(index_max)
-        print(self.nums_output)   
+
 
 
 
@@ -165,23 +167,25 @@ def make_output_matrix(array):
         tmp_matrix = [0,0,0,0,0,0,0,0,0,0]
         tmp_matrix[array[i]] = 1
         matrixl.append(tmp_matrix)
+
+    #print(numpy.matrix(matrixl))
     return numpy.matrix(matrixl)
 
 
 train_data_object = pandas.read_csv("fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
-input_data = input_data.head()
+input_data = input_data.head(1000)
 features_matrix = input_data.values
-actual_output = make_output_matrix(train_data_object['label'].head(5))
-perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
+actual_output = make_output_matrix(train_data_object['label'].head(1000))
+perceptrons_in_each_layer = [features_matrix.shape[1], 3, 10]
 test_data_object = pandas.read_csv("fashion-mnist_test.csv")
 testing_sample = (test_data_object.drop( 'label' ,axis = 1))
-testing_sample = testing_sample.values
+testing_sample = testing_sample.head(1000).values
 ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
 
 
 
-for i in range(1000):
+for i in range(10000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
@@ -195,7 +199,6 @@ ob.predict()
 
 
         
-
 
 
 
