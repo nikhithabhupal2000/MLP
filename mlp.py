@@ -170,7 +170,7 @@ def make_output_matrix(array):
 
 train_data_object = pandas.read_csv("fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
-#input_data = input_data.head()
+input_data = input_data.head()
 features_matrix = input_data.values
 actual_output = make_output_matrix(train_data_object['label'].head(5))
 perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
