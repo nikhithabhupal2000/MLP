@@ -151,30 +151,35 @@ class Mlp:
 
 
 def make_output(array):
-    matrix = []
+    matrixl = []
     for i in range(len(array)):
         tmp_matrix = [0,0,0,0,0,0,0,0,0,0]
         tmp_matrix[array[i]] = array[i]
-        matrix.append(numpy.matrix(tmp_matrix))
-    return matrix
+        matrixl.append(tmp_matrix)
+    return numpy.matrix(matrixl)
 
 
 train_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
 input_data = input_data.head()
 features_matrix = input_data.values
-actual_output =  make_output(train_data_object['label'].head().values)
-print(type(actual_output))
+print(features_matrix.shape)
+actual_output = make_output(train_data_object['label'].head())
+print(actual_output.shape)
+#actual_output =  make_output(train_data_object['label'].head().values)
 perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
 #test_data_object = pandas.read_csv("C:\Users\Nikitha\Desktop\datasets\fashion-mnist_test.csv")
 #testing_sample = test_data_object.head().drop( 'label' ,axis = 1)
-
 testing_sample = features_matrix
 ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
+
+
+
 for i in range(1000):
     ob.forward_propagation()
     ob.backward_propagation()
     ob.update()
+
 
 print("Predicted outputs are ")
 ob.predict()
