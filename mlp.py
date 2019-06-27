@@ -141,36 +141,39 @@ class Mlp:
         for i in range(self.number_of_hidden_layers, -1, -1):
             self.weights[i] = self.weights[i] + numpy.matmul(numpy.transpose(self.prediction[i]), self.left_error[self.number_of_hidden_layers - i]) * self.learning_rate 
 
+
+
     def update_biases(self):
         for i in range(self.number_of_hidden_layers, -1, -1):
             self.biases[i] = numpy.add(self.biases[i], self.left_error[self.number_of_hidden_layers - i]) * self.learning_rate 
+
+
+
 
     def update(self):
         self.update_weights()
         self.update_biases()
 
 
-def make_output(array):
+
+def make_output_matrix(array):
     matrixl = []
     for i in range(len(array)):
         tmp_matrix = [0,0,0,0,0,0,0,0,0,0]
-        tmp_matrix[array[i]] = array[i]
+        tmp_matrix[array[i]] = 1
         matrixl.append(tmp_matrix)
     return numpy.matrix(matrixl)
 
 
 train_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
-input_data = input_data.head()
+#input_data = input_data.head()
 features_matrix = input_data.values
-print(features_matrix.shape)
-actual_output = make_output(train_data_object['label'].head())
-print(actual_output.shape)
-#actual_output =  make_output(train_data_object['label'].head().values)
+actual_output = make_output_matrix(train_data_object['label'].head())
 perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
-#test_data_object = pandas.read_csv("C:\Users\Nikitha\Desktop\datasets\fashion-mnist_test.csv")
-#testing_sample = test_data_object.head().drop( 'label' ,axis = 1)
-testing_sample = features_matrix
+test_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_test.csv")
+testing_sample = (test_data_object.drop( 'label' ,axis = 1))
+testing_sample = testing_sample.values
 ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
 
 
@@ -181,8 +184,8 @@ for i in range(1000):
     ob.update()
 
 
-print("Predicted outputs are ")
 ob.predict()
+
 
 
 
