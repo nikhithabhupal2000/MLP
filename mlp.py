@@ -72,7 +72,7 @@ class Mlp:
         for i in range(self.number_of_hidden_layers + 1):
             self.solution.append(self.next_layer_prediction(self.solution[i], self.weights[i], self.biases[i]))
         #print(self.solution[-1])
-        for i in range(len(self.solution)):
+        for i in range(len(self.solution[-1])):
             index_max = numpy.unravel_index(numpy.argmax(self.solution[i], axis = None), self.solution[i].shape)[1]
             self.nums_output.append(index_max)
         print(self.nums_output)   
