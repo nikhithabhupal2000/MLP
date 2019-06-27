@@ -44,7 +44,7 @@ class Mlp:
         self.solution = []
         self.solution.append(self.testing_samples)
         self.learning_rate = 0.1
-
+        self.nums_output = []
         for i in range(self.number_of_hidden_layers + 1):
             temp_bias = numpy.matrix(numpy.random.rand( 1 , number_of_neurons_in_each_layer [ i + 1]))
             self.biases.append(temp_bias)
@@ -71,8 +71,11 @@ class Mlp:
     def predict(self):
         for i in range(self.number_of_hidden_layers + 1):
             self.solution.append(self.next_layer_prediction(self.solution[i], self.weights[i], self.biases[i]))
-        print(self.solution[-1])
-
+        #print(self.solution[-1])
+        for i in range(len(self.solution)):
+            index_max = numpy.unravel_index(numpy.argmax(self.solution[i], axis = None), self.solution[i].shape)[1]
+            self.nums_output.append(index_max)
+        print(self.nums_output)   
 
 
 
@@ -165,13 +168,13 @@ def make_output_matrix(array):
     return numpy.matrix(matrixl)
 
 
-train_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_train.csv")
+train_data_object = pandas.read_csv("fashion-mnist_train.csv")
 input_data = train_data_object.drop('label', axis = 1)
 #input_data = input_data.head()
 features_matrix = input_data.values
-actual_output = make_output_matrix(train_data_object['label'].head())
+actual_output = make_output_matrix(train_data_object['label'].head(5))
 perceptrons_in_each_layer = [features_matrix.shape[1], 2, 10]
-test_data_object = pandas.read_csv(r"C:\Users\Nikitha\Desktop\datasets\fashion-mnist_test.csv")
+test_data_object = pandas.read_csv("fashion-mnist_test.csv")
 testing_sample = (test_data_object.drop( 'label' ,axis = 1))
 testing_sample = testing_sample.values
 ob = Mlp(features_matrix, actual_output, perceptrons_in_each_layer, testing_sample, [], "sigmoid" , "absolute_error")
@@ -192,6 +195,7 @@ ob.predict()
 
 
         
+
 
 
 
