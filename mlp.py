@@ -154,7 +154,7 @@ def make_output(array):
     matrixl = []
     for i in range(len(array)):
         tmp_matrix = [0,0,0,0,0,0,0,0,0,0]
-        tmp_matrix[array[i]] = array[i]
+        tmp_matrix[array[i]] = 1
         matrixl.append(tmp_matrix)
     return numpy.matrix(matrixl)
 
