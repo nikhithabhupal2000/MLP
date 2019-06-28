@@ -1,0 +1,122 @@
+\documentclass{beamer}
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{tabu}
+\usepackage{colortbl}
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetheme{AnnArbor}
+\usepackage{amsbsy}
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{shadow}
+\usepackage{curves}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancybox}
+\usepackage{makeidx}
+\makeindex
+\usepackage{natbib}
+
+\title[Multi Layer Perceptron]{Multi Layer Perceptron \\ Implementation }
+\author[Srinija Raj, A Nikhitha, M Nikhitha]{ Malkapuram Nikhitha \\ Alla Nikhitha \\ Srinija Raj}
+\institute[WE]{ TalentSprint - WE program }
+\date{\today}
+
+\AtBeginSubsection[] {
+ \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Technologies}
+    \begin{enumerate}
+  %   \item  Domain: Machine Learning
+   %  \vspace{10pt}
+    %        \begin{itemize}
+     %           \item Neural Networks
+      %      \end{itemize}
+       %     \vspace{20pt}
+        \item Language: Python3
+        \vspace{10pt}
+        \begin{itemize}
+             \item Packages: numpy, pandas
+        \end{itemize}
+        \vspace{20pt}
+      
+       \item  Dataset: MNIST 
+        \vspace{10pt}
+        \begin{itemize}
+            \item Source: Kaggle
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+ 
+\begin{frame}{Timeline }
+  \begin{center}
+     \includegraphics[scale = 0.5]{timeline.jpg}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Issues}
+\includegraphics[scale = 0.4]{issues5.png}
+\end{frame}
+
+\begin{frame}{Commits}
+\includegraphics[scale = 0.4]{commits.png}
+\end{frame}
+
+\begin{frame}{Challenges faced}
+    \begin{itemize}
+        \item Understanding neural network
+        \vspace{10pt}
+       % \item Activation functions for matrices
+        \vspace{10pt}
+        \item Derivatives of activation functions
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparision}
+    \taburowcolors[2]{white .. black!10}
+
+\sffamily\footnotesize
+\tabulinesep=6pt
+\begin{tabu}{|>{\cellcolor{yellow!95}\color{black}}r|X[cm]|X[cm]|}
+\hline
+\rowcolor{blue!90}\strut  & \color{white}Standard Algorithm & \color{white}Our Algorithm \\
+Classes &  3 & 2 \\
+No. of lines  & Around 1312 & Around 200 \\
+Accuracy & Very High & Low\\
+\hline
+\end{tabu}
+
+\end{frame}
+
+\begin{frame}{Learnings}
+    \begin{itemize}
+    \item Python and its packages
+        \vspace{10pt}
+        \item Mechanism of Deep Neural Networks
+        \vspace{10pt}
+        \item Version control system 
+        \vspace{10pt}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{}
+  \centering \Large
+  \color{blue}
+  \textbf {Discussions}
+\end{frame}
+
+\end{document}
